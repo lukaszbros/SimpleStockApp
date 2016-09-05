@@ -1,11 +1,6 @@
 import angular from 'angular';
-
-import {stockSelect} from './app/stockSelect';
+import stockSelect from './app/stockSelect/stockSelect.js';
 
 import './index.scss';
 
-export const app = 'app';
-
-angular
-  .module(app, [])
-  .component('app', stockSelect);
+angular.module('app', [stockSelect]);
