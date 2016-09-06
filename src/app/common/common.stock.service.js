@@ -6,7 +6,7 @@ export function StockService($http) {
   const StockServiceDef = {
 
     getStockList() {
-      return $http.get('http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ&render=download');
+      return $http.get('/app/common/stocks.json');
     }
   };
 

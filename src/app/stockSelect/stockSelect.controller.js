@@ -11,6 +11,7 @@ export class StockSelectController {
   $onInit() {
     this.StockService.getStockList()
         .then(response => {
+          console.log(response);
           this.stocks = response.data;
         });
   }
