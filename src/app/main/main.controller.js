@@ -2,11 +2,17 @@
 
 export class MainController {
 
-  constructor() {
+  /* @ngInject */
+  constructor(Notification) {
+    this.Notification = Notification;
     this.selectedStocks = [];
   }
 
   stockSelected(selectedStock) {
-    console.log(selectedStock);
+    if (this.selectedStocks.indexOf(selectedStock) === -1) {
+      this.selectedStocks.push(selectedStock);
+    } else {
+      this.Notification.info('Already selected');
+    }
   }
 }

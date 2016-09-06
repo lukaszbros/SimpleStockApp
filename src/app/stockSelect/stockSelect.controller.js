@@ -13,6 +13,8 @@ export class StockSelectController {
     this.StockService.getStockList()
         .then(response => {
           this.stocks = response.data;
+        }, () => {
+          this.Notification.error('Cannot load stocks list');
         });
   }
 

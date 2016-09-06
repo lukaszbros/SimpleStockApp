@@ -1,0 +1,14 @@
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Symbol</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr ng-repeat="stock in stockList.selectedStocks">
+    <td>{{stock.name}}</td>
+    <td>{{stock.symbol}}</td>
+    <td><a ng-click="stockList.info(stock)"><i class="fa fa-info"></i></a></td>
+    <td><a ng-click="stockList.remove(stock)"><i class="fa fa-delete"></i></a></td>
+  </tr>
+</table>
