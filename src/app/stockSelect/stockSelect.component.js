@@ -6,6 +6,9 @@ export default angular.module('app.stockSelect', [common])
   .component('stockSelect', {
     templateUrl: 'app/stockSelect/stockSelect.html',
     controller: StockSelectController,
-    controllerAs: 'stockSelect'
+    controllerAs: 'stockSelect',
+    bindings: {
+      onStockSelected: '&'
+    }
   })
   .name;

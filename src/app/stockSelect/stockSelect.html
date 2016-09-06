@@ -1,2 +1,3 @@
 <h1>Select stock</h1>
-{{stockSelect.stocks}}
+<select ng-options="item as item.name for item in stockSelect.stocks" ng-model="stockSelect.selectedStock"></select>
+<button ng-click="stockSelect.selectStock(stockSelect.selectedStock)">Add stock</button>
