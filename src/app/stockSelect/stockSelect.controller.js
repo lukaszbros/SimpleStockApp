@@ -3,8 +3,9 @@
 export class StockSelectController {
 
   /* @ngInject */
-  constructor(StockService) {
+  constructor(StockService, Notification) {
     this.StockService = StockService;
+    this.Notification = Notification;
     this.stocks = [];
   }
 
@@ -19,6 +20,7 @@ export class StockSelectController {
     if (selectedStock) {
       this.onStockSelected({selectedStock: selectedStock});
     } else {
+      this.Notification.warning('Please select stock');
     }
   }
 }
