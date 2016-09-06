@@ -18,6 +18,7 @@ export class StockSelectController {
   selectStock(selectedStock) {
     if (selectedStock) {
       this.onStockSelected({selectedStock: selectedStock});
+    } else {
     }
   }
 }
