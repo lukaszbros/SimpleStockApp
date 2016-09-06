@@ -31,7 +31,6 @@ module.exports = function (config) {
     ngHtml2JsPreprocessor: {
       stripPrefix: `${conf.paths.src}/`,
       moduleName: function (htmlPath) {
-        console.log(htmlPath);
         return `app.${htmlPath.split('/')[1]}`;
       }
     },

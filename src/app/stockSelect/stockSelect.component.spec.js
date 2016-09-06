@@ -1,6 +1,6 @@
 import angular from 'angular';
 import 'angular-mocks';
-import stockSelect from './stockSelect';
+import stockSelect from './stockSelect.component';
 
 describe('hello component', () => {
   beforeEach(() => {
