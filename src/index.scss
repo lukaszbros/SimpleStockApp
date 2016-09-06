@@ -1,4 +1,6 @@
-@import '~angular-ui-notification/dist/angular-ui-notification.min.css';
+@import "~angular-ui-notification/dist/angular-ui-notification.min.css";
+$fa-font-path:        "fonts" !default;
+@import "~font-awesome/scss/font-awesome";
 
 body {
   background-color: lightgrey;
