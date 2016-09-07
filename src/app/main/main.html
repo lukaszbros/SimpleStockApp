@@ -11,9 +11,20 @@
 <section id="application">
   <div class="container">
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-sm-5">
         <stock-select on-stock-selected="main.stockSelected(stock)"></stock-select>
         <stock-list on-stock-removed="main.stockRemoved(stock)" selected-stocks="main.selectedStocks"></stock-list>
+      </div>
+      <div class="col-sm-7">
+        <date-select date-from="main.dateFrom" date-to="main.dateTo"></date-select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-5">
+
+      </div>
+      <div class="col-sm-7">
+
       </div>
     </div>
   </div>
