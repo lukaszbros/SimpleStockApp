@@ -12,8 +12,8 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-4">
-        <stock-select on-stock-selected="main.stockSelected(selectedStock)"></stock-select>
-        <stock-list selected-stocks="main.selectedStocks"></stock-list>
+        <stock-select on-stock-selected="main.stockSelected(stock)"></stock-select>
+        <stock-list on-stock-removed="main.stockRemoved(stock)" selected-stocks="main.selectedStocks"></stock-list>
       </div>
     </div>
   </div>

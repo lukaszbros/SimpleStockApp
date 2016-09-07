@@ -7,7 +7,8 @@ export default angular.module('app.stockList', [])
     controller: StockListController,
     controllerAs: 'stockList',
     bindings: {
-      selectedStocks: '='
+      selectedStocks: '=',
+      onStockRemoved: '&'
     }
   })
   .name;

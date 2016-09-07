@@ -18,9 +18,9 @@ export class StockSelectController {
         });
   }
 
-  selectStock(selectedStock) {
-    if (selectedStock) {
-      this.onStockSelected({selectedStock: selectedStock});
+  selectStock(stock) {
+    if (stock) {
+      this.onStockSelected({stock: stock});
     } else {
       this.Notification.warning('Please select stock');
     }
