@@ -1,9 +1,13 @@
-<table>
+<h2>Selected stock list</h2>
+<table class="table table-striped">
   <tr>
     <th>Name</th>
     <th>Symbol</th>
-    <th></th>
-    <th></th>
+    <th>Info</th>
+    <th>Remove</th>
+  </tr>
+  <tr ng-show="stockList.selectedStocks.length === 0">
+    <td colspan="4" class="text-center">No stocks selected</td>
   </tr>
   <tr ng-repeat="stock in stockList.selectedStocks">
     <td>{{stock.name}}</td>
