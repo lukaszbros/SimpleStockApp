@@ -9,6 +9,11 @@ export class MainController {
   }
 
   stockSelected(stock) {
+    if (this.selectedStocks.length === 3) {
+      this.Notification.warning('You can only select 3 stocks at a time');
+      return;
+    }
+
     if (this.selectedStocks.indexOf(stock) === -1) {
       this.selectedStocks.push(stock);
     } else {
