@@ -1,2 +1,31 @@
-<stock-select on-stock-selected="main.stockSelected(selectedStock)"></stock-select>
-<stock-list selected-stocks="main.selectedStocks"></stock-list>
+<header>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Simple stock app</h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="application">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <stock-select on-stock-selected="main.stockSelected(selectedStock)"></stock-select>
+        <stock-list selected-stocks="main.selectedStocks"></stock-list>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        Copyright <i class="fa fa-copyright"></i> Lukasz Bros
+      </div>
+    </div>
+  </div>
+</footer>
+

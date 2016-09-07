@@ -4,6 +4,27 @@
 $fa-font-path:        "fonts" !default;
 @import "~font-awesome/scss/font-awesome";
 
+$mainBackground: #e3e0cf;
+$mainHeader: #c5d5cb;
+$mainFooter: #9fa8a3;
+
 body {
-  background-color: lightgrey;
+  background-color: $mainBackground;
+}
+
+header {
+  background-color: $mainHeader;
+}
+
+footer {
+  background-color: $mainFooter;
+}
+
+table {
+  thead {
+    background-color: $mainHeader;
+  }
+  tfoot {
+    background-color: $mainHeader;
+  }
 }
