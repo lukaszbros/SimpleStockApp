@@ -27,6 +27,10 @@ module.exports = {
         test: /\.js$/,
         exclude: /(node_modules|.*\.spec\.js)/,
         loader: 'isparta'
+      },
+      {
+        test: /\.(eot|ttf|woff2?|otf|svg|png|jpg)$/,
+        loaders: ['file']
       }
     ]
   },
