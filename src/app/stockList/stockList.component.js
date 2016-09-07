@@ -1,7 +1,8 @@
 import angular from 'angular';
+import stockDetails from '../stockDetails/stockDetails.component';
 import {StockListController} from './stockList.controller';
 
-export default angular.module('app.stockList', [])
+export default angular.module('app.stockList', [stockDetails])
   .component('stockList', {
     templateUrl: 'app/stockList/stockList.html',
     controller: StockListController,

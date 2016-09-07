@@ -18,6 +18,7 @@ header {
 
 footer {
   background-color: $mainFooter;
+  margin-top: 2em;
 }
 
 table {
@@ -31,4 +32,10 @@ table {
 
 .link-button {
   cursor: pointer;
+}
+
+.stock-details {
+  .title {
+    font-weight: bold;
+  }
 }
