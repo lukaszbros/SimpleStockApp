@@ -1,5 +1,5 @@
 <div ng-show="stockDetails.stock" class="stock-details">
-  <h3>Stock details</h3>
+  <h3>Stock details - {{stockDetails.stock.symbol}}</h3>
   <div class="row">
     <div class="col-sm-5 title">
       Name
@@ -49,8 +49,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-5 title">
-      Industry
+    <div class="col-sm-5 title">Industry
     </div>
     <div class="col-sm-7 value">
       {{stockDetails.stock.industry}}
