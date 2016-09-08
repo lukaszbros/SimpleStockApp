@@ -28,7 +28,23 @@ export function StockService($http, $q, $filter, Notification) {
         $http.get(`http://query.yahooapis.com/v1/public/yql?q=${query}&format=json&diagnostics=true&env=http://datatables.org/alltables.env`)
           .then((response) => {
             if (response.data && response.data.query && response.data.query.results && response.data.query.results.quote) {
-              request.resolve(response.data.query.results.quote);
+              let stockData = [],
+                  lastQuoteSymbol,
+                  stockId = -1;
+
+              angular.forEach(response.data.query.results.quote, quote => {
+                if (lastQuoteSymbol !== quote.Symbol) {
+                  stockId++;
+                  stockData[stockId] = {
+                    name: quote.Symbol,
+                    data: []
+                  };
+                  lastQuoteSymbol = quote.Symbol;
+                }
+                stockData[stockId].data.push(quote);
+              });
+
+              request.resolve(stockData);
             } else {
               request.resolve([]);
             }
