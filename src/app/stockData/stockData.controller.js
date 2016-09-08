@@ -11,22 +11,17 @@ export class StockDataController {
 
   $onInit() {
     this.dismissStockWatch = this.rootScope.$watch(() => {
-      return this.stock;
-    }, () => {
-      this.updateStockData();
+      if (this.stock && this.stock.symbol) {
+        return this.StockService.getCurrentStockFor(this.stock.symbol);
+      }
+    }, (currentStock) => {
+      if (currentStock) {
+        this.stockValues = currentStock.values;
+      }
     }, true);
   }
 
   $onDestroy() {
     this.dismissStockWatch();
-  }
-
-  updateStockData() {
-    if (this.stock && this.stock.symbol) {
-      let data = this.StockService.getCurrentStockFor(this.stock.symbol);
-      if (data && data.values) {
-        this.stockValues = data.values;
-      }
-    }
   }
 }
