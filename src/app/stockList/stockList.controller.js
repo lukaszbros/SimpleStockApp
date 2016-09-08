@@ -11,6 +11,16 @@ export class StockListController {
       this.infoSelectedStock = undefined;
     } else {
       this.infoSelectedStock = stock;
+      this.dataSelectedStock = undefined;
+    }
+  }
+
+  dataStock(stock) {
+    if (this.dataSelectedStock === stock) {
+      this.dataSelectedStock = undefined;
+    } else {
+      this.dataSelectedStock = stock;
+      this.infoSelectedStock = undefined;
     }
   }
 
@@ -18,6 +28,7 @@ export class StockListController {
     if (stock) {
       if (this.infoSelectedStock === stock) {
         this.infoSelectedStock = undefined;
+        this.dataSelectedStock = undefined;
       }
 
       this.onStockRemoved({stock: stock});

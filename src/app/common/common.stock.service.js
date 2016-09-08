@@ -3,6 +3,8 @@
 export function StockService($http, $q, $filter, Notification) {
   'ngInject';
 
+  let currentStockData;
+
   return {
     getStockList() {
       let request = $q.defer();
@@ -50,6 +52,7 @@ export function StockService($http, $q, $filter, Notification) {
                 });
               });
 
+              currentStockData = stockData;
               request.resolve(stockData);
             } else {
               request.resolve([]);
@@ -62,6 +65,10 @@ export function StockService($http, $q, $filter, Notification) {
       }
 
       return request.promise;
+    },
+
+    getCurrentStockFor(stockSymbol) {
+      return currentStockData.find(stock => stock.key === stockSymbol);
     }
   };
 }
