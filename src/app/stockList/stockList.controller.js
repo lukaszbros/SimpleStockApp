@@ -28,6 +28,9 @@ export class StockListController {
     if (stock) {
       if (this.infoSelectedStock === stock) {
         this.infoSelectedStock = undefined;
+      }
+      
+      if (this.dataSelectedStock === stock) {
         this.dataSelectedStock = undefined;
       }
 
