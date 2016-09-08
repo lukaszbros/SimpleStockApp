@@ -81,11 +81,29 @@ export class StockGraphController {
   }
 
   $onInit() {
-    this.rootScope.$watch(() => {
+    this.dismissStockWatch = this.rootScope.$watch(() => {
       return this.selectedStocks;
     }, () => {
       this.updateStockData();
     }, true);
+
+    this.dismissDateFromkWatch = this.rootScope.$watch(() => {
+      return this.dateFrom;
+    }, () => {
+      this.updateStockData();
+    }, true);
+
+    this.dismissDateToWatch = this.rootScope.$watch(() => {
+      return this.dateTo;
+    }, () => {
+      this.updateStockData();
+    }, true);
+  }
+
+  $onDestroy() {
+    this.dismissStockWatch();
+    this.dismissDateFromkWatch();
+    this.dismissDateToWatch();
   }
 
   updateStockData() {
