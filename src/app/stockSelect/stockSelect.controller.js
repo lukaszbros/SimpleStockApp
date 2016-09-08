@@ -11,10 +11,8 @@ export class StockSelectController {
 
   $onInit() {
     this.StockService.getStockList()
-        .then(response => {
-          this.stocks = response.data;
-        }, () => {
-          this.Notification.error('Cannot load stocks list');
+        .then(stocks => {
+          this.stocks = stocks;
         });
   }
 
