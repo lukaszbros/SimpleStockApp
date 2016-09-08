@@ -59,31 +59,67 @@ export function d3Graph($window, $timeout, StockGraphService) {
             svg.append(line(data[0].data));*/
 
             // define dimensions of graph
-            let margin = {top: 20, right: 80, bottom: 30, left: 50},
+            let minValue = +data[0].data[0].close,
+                maxValue = +data[0].data[0].close;
+            angular.forEach(data[0].data, stockData => {
+              if (+stockData.close < minValue) {
+                minValue = +stockData.close
+              }
+
+              if (+stockData.close > maxValue) {
+                maxValue = +stockData.close
+              }
+            });
+
+            let margin = {top: 20, right: 20, bottom: 20, left: 20},
               width = ele[0].getBoundingClientRect().width - margin.left - margin.right,
               height = ele[0].getBoundingClientRect().height - margin.top - margin.bottom;
 
-            var x = d3.scaleTime().domain([0, 30]).range([0, width]);
-            var y = d3.scaleLinear().domain([0, 50]).range([height, 0]);
             var formatDate = d3.timeParse("%Y-%m-%d");
-            // create a line function that can convert data[] into x and y points
+            var x = d3.scaleTime().domain([formatDate(data[0].data[0].date), formatDate(data[0].data[data[0].data.length-1].date)]).range([0, width]);
+            var y = d3.scaleLinear().domain([minValue, maxValue]).range([height, 0]);
+
+            // Define the axes
+            var xAxis = d3.axisBottom(x);
+            var yAxis = d3.axisLeft(y);
+
             var line = d3.line()
-            // assign the X function to plot our line as we wish
-                .x(function(d,i) {
-                  return x(i);
+                .x(function(d) {
+                  return x(formatDate(d.date));
                 })
                 .y(function(d) {
-                  return y(+d.Close);
+                  return y(d.close);
                 });
 
-            // Add an SVG element with the desired dimensions and margin.
-            svg.append("svg:svg")
+            svg.append("svg:scale")
                 .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom);
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-            // Add the line by appending an svg:path element with the data line we created above
-            // do this AFTER the axes above so that the line is above the tick-lines
-            svg.append("svg:path").attr("d", line(data[0].data));
+            // Add the X Axis
+            svg.append("g")
+                .attr("class", "axis axis-x")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+            // Add the Y Axis
+            svg.append("g")
+                .attr("class", "axis axis-y")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", "0.71em")
+                .attr("fill", "#000")
+                .text("Close price $");
+
+            svg.append("svg:path")
+                .datum(data[0].data)
+                .attr("class", "line")
+                .attr("fill", "none")
+                .attr("stroke", "#000")
+                .attr("d", line);
           }, 0);
         };
       });

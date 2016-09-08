@@ -41,7 +41,13 @@ export function StockService($http, $q, $filter, Notification) {
                   };
                   lastQuoteSymbol = quote.Symbol;
                 }
-                stockData[stockId].data.push(quote);
+                stockData[stockId].data.push({
+                  date: quote.Date,
+                  close: +quote.Close,
+                  high: +quote.High,
+                  low: +quote.Low,
+                  volume: +quote.Volume
+                });
               });
 
               request.resolve(stockData);

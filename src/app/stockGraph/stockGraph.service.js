@@ -6,7 +6,6 @@ export function StockGraphService($rootScope, $timeout, $q) {
 
   let d = $q.defer();
   $timeout(() => {
-    console.log(d3);
     $rootScope.$apply(function() { d.resolve(d3); });
   }, 0);
 
