@@ -34,7 +34,7 @@ export class StockListController {
         this.dataSelectedStock = undefined;
       }
 
-      this.onStockRemoved({stock: stock});
+      this.onStockRemoved({stock});
     } else {
       this.Notification.warning('Please select stock');
     }

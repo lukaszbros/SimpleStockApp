@@ -14,7 +14,7 @@ export class StockDataController {
       if (this.stock && this.stock.symbol) {
         return this.StockService.getCurrentStockFor(this.stock.symbol);
       }
-    }, (currentStock) => {
+    }, currentStock => {
       if (currentStock) {
         this.stockValues = currentStock.values;
       }

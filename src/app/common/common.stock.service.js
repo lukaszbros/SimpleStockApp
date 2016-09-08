@@ -1,4 +1,5 @@
 'use strict';
+import angular from 'angular';
 
 export function StockService($http, $q, $filter, Notification) {
   'ngInject';
@@ -7,9 +8,9 @@ export function StockService($http, $q, $filter, Notification) {
 
   return {
     getStockList() {
-      let request = $q.defer();
+      const request = $q.defer();
       $http.get('/app/common/stocks.json')
-        .then((response) => {
+        .then(response => {
           request.resolve(response.data);
         }, () => {
           this.Notification.error('Cannot load stocks list');
@@ -19,20 +20,20 @@ export function StockService($http, $q, $filter, Notification) {
     },
 
     getStockData(selectedStocks, dateFrom, dateTo) {
-      let request = $q.defer();
+      const request = $q.defer();
       if (angular.isArray(selectedStocks) && selectedStocks.length > 0 && angular.isDate(dateFrom) && angular.isDate(dateTo)) {
-        let stockSymbols = [];
+        const stockSymbols = [];
         angular.forEach(selectedStocks, stock => {
           stockSymbols.push(`"${stock.symbol}"`);
         });
 
-        const query = encodeURIComponent(`select * from yahoo.finance.historicaldata where symbol in (${stockSymbols.join()}) and startDate = "${$filter('date')(dateFrom,'yyyy-MM-dd')}" and endDate = "${$filter('date')(dateTo,'yyyy-MM-dd')}"`);
+        const query = encodeURIComponent(`select * from yahoo.finance.historicaldata where symbol in (${stockSymbols.join()}) and startDate = "${$filter('date')(dateFrom, 'yyyy-MM-dd')}" and endDate = "${$filter('date')(dateTo, 'yyyy-MM-dd')}"`);
         $http.get(`http://query.yahooapis.com/v1/public/yql?q=${query}&format=json&diagnostics=true&env=http://datatables.org/alltables.env`)
-          .then((response) => {
+          .then(response => {
             if (response.data && response.data.query && response.data.query.results && response.data.query.results.quote) {
-              let stockData = [],
-                  lastQuoteSymbol,
-                  stockId = -1;
+              const stockData = [];
+              let lastQuoteSymbol;
+              let stockId = -1;
 
               angular.forEach(response.data.query.results.quote, quote => {
                 if (lastQuoteSymbol !== quote.Symbol) {
@@ -45,10 +46,10 @@ export function StockService($http, $q, $filter, Notification) {
                 }
                 stockData[stockId].values.push({
                   date: new Date(quote.Date),
-                  close: +quote.Close,
-                  high: +quote.High,
-                  low: +quote.Low,
-                  volume: +quote.Volume
+                  close: Number(quote.Close),
+                  high: Number(quote.High),
+                  low: Number(quote.Low),
+                  volume: Number(quote.Volume)
                 });
               });
 
@@ -57,7 +58,7 @@ export function StockService($http, $q, $filter, Notification) {
             } else {
               request.resolve([]);
             }
-          },() => {
+          }, () => {
             Notification.error('Cannot load stock data');
           });
       } else {

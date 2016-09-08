@@ -26,7 +26,7 @@ export class MainController {
 
   stockRemoved(stock) {
     const indexOfStock = this.selectedStocks.indexOf(stock);
-    if (indexOfStock !== -1) {
+    if (indexOfStock > -1) {
       this.selectedStocks.splice(indexOfStock, 1);
     } else {
       this.Notification.info('No stock to remove');
