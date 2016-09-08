@@ -35,7 +35,6 @@ export class StockGraphController {
         tooltip: {
           contentGenerator: function (e) {
             var series = e.series[0];
-            console.log(e);
             if (series.value === null) return;
 
             var rows =
