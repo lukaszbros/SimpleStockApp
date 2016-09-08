@@ -1,5 +1,5 @@
 'use strict';
-import * as d3 from "d3";
+import d3 from "d3";
 
 export function StockGraphService($rootScope, $timeout, $q) {
   'ngInject';

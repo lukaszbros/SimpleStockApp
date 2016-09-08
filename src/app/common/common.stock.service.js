@@ -36,13 +36,13 @@ export function StockService($http, $q, $filter, Notification) {
                 if (lastQuoteSymbol !== quote.Symbol) {
                   stockId++;
                   stockData[stockId] = {
-                    name: quote.Symbol,
-                    data: []
+                    key: quote.Symbol,
+                    values: []
                   };
                   lastQuoteSymbol = quote.Symbol;
                 }
-                stockData[stockId].data.push({
-                  date: quote.Date,
+                stockData[stockId].values.push({
+                  date: new Date(quote.Date),
                   close: +quote.Close,
                   high: +quote.High,
                   low: +quote.Low,
