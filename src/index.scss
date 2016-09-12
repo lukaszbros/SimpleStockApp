@@ -44,3 +44,14 @@ table {
     font-weight: bold;
   }
 }
+
+.stock-graph {
+  .graph-container {
+    height: 300px;
+
+    svg {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
