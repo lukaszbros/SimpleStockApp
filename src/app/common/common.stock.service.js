@@ -31,44 +31,21 @@ export function StockService($http, $q, $filter, Notification) {
         $http.get(`http://query.yahooapis.com/v1/public/yql?q=${query}&format=json&diagnostics=true&env=http://datatables.org/alltables.env`)
           .then(response => {
             if (response.data && response.data.query && response.data.query.results && response.data.query.results.quote) {
-              const stockData = [];
-              let lastQuoteSymbol;
-              let stockId = -1;
-
-              /*
-               var varNames = d3.keys(data[0])
-               .filter(function (key) { return key !== labelVar;});
-               color.domain(varNames);
-               var seriesData = varNames.map(function (name) {
-               return {
-               name: name,
-               values: data.map(function (d) {
-               return {name: name, label: d[labelVar], value: +d[name]};
-               })
-               };
-               });
-               console.log("seriesData", seriesData);
-               */
-
-              angular.forEach(response.data.query.results.quote, quote => {
-                if (lastQuoteSymbol !== quote.Symbol) {
-                  stockId++;
-                  stockData[stockId] = {
-                    key: quote.Symbol,
-                    values: []
-                  };
-                  lastQuoteSymbol = quote.Symbol;
-                }
-                stockData[stockId].values.push({
-                  date: new Date(quote.Date),
-                  close: Number(quote.Close),
-                  high: Number(quote.High),
-                  low: Number(quote.Low),
-                  volume: Number(quote.Volume)
-                });
+              const stockData = selectedStocks.map(stock => {
+                return {
+                  name: stock.symbol,
+                  values: response.data.query.results.quote.map(quote => {
+                    return {
+                      date: new Date(quote.Date),
+                      close: Number(quote.Close),
+                      high: Number(quote.High),
+                      low: Number(quote.Low),
+                      volume: Number(quote.Volume)
+                    };
+                  })
+                };
               });
 
-              currentStockData = stockData;
               request.resolve(stockData);
             } else {
               request.resolve([]);
