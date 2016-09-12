@@ -1,5 +1,4 @@
 'use strict';
-/* global d3 */
 
 export class StockGraphController {
 
