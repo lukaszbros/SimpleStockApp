@@ -35,6 +35,21 @@ export function StockService($http, $q, $filter, Notification) {
               let lastQuoteSymbol;
               let stockId = -1;
 
+              /*
+               var varNames = d3.keys(data[0])
+               .filter(function (key) { return key !== labelVar;});
+               color.domain(varNames);
+               var seriesData = varNames.map(function (name) {
+               return {
+               name: name,
+               values: data.map(function (d) {
+               return {name: name, label: d[labelVar], value: +d[name]};
+               })
+               };
+               });
+               console.log("seriesData", seriesData);
+               */
+
               angular.forEach(response.data.query.results.quote, quote => {
                 if (lastQuoteSymbol !== quote.Symbol) {
                   stockId++;

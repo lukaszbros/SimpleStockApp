@@ -58,8 +58,12 @@ export function d3Graph($window, $timeout, StockGraphService) {
             let y = d3.scaleLinear().domain([minValue, maxValue]).range([height, 0]);
 
             // Define the axes
-            let xAxis = d3.axisBottom(x);
-            var yAxis = d3.axisLeft(y);
+            let xAxis = d3.axisBottom(x)
+                .tickFormat(d3.timeFormat('%m-%d'));
+            let yAxis = d3.axisLeft(y)
+                .tickSize(1)
+                .ticks(6)
+                .tickFormat(d3.format(",.0f"));
 
             let line = d3.line()
                 .x(function(d) {
@@ -69,21 +73,16 @@ export function d3Graph($window, $timeout, StockGraphService) {
                   return y(d.close);
                 });
 
-            svg.append('svg:scale')
-                .attr('width', width + margin.left + margin.right)
-                .attr('height', height + margin.top + margin.bottom)
-                .append('g')
-                .attr('transform', `translate(${margin.left}, ${margin.top})`);
-
             // Add the X Axis
             svg.append('g')
                 .attr('class', 'axis axis-x')
-                .attr('transform', `translate(0,${height})`)
+                .attr('transform', `translate(${margin.left}, ${height + margin.top})`)
                 .call(xAxis);
 
             // Add the Y Axis
             svg.append('g')
                 .attr('class', 'axis axis-y')
+                .attr('transform', `translate(${margin.left}, ${margin.top})`)
                 .call(yAxis)
                 .append('text')
                 .attr('transform', 'rotate(-90)')
@@ -93,6 +92,7 @@ export function d3Graph($window, $timeout, StockGraphService) {
                 .text('Close price $');
 
             svg.append('svg:path')
+                .attr('transform', `translate(${margin.left}, ${margin.top})`)
                 .datum(data[0].values)
                 .attr('class', 'line')
                 .attr('fill', 'none')
