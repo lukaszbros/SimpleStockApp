@@ -11,8 +11,9 @@ export function d3Graph($window, $timeout, StockGraphService) {
       onClick: '&'
     },
     link: function (scope, ele, attrs) {
+      console.log('link');
       StockGraphService.d3().then(function (d3) {
-
+        console.log('render');
         var renderTimeout;
         var margin = parseInt(attrs.margin) || 20,
             barHeight = parseInt(attrs.barHeight) || 20,
