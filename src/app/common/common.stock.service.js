@@ -10,11 +10,11 @@ export function StockService($http, $q, $filter, Notification) {
     getStockList() {
       const request = $q.defer();
       $http.get('/app/common/stocks.json')
-        .then(response => {
-          request.resolve(response.data);
-        }, () => {
-          this.Notification.error('Cannot load stocks list');
-        });
+          .then(response => {
+            request.resolve(response.data);
+          }, () => {
+            this.Notification.error('Cannot load stocks list');
+          });
 
       return request.promise;
     },
@@ -29,34 +29,34 @@ export function StockService($http, $q, $filter, Notification) {
 
         const query = encodeURIComponent(`select * from yahoo.finance.historicaldata where symbol in (${stockSymbols.join()}) and startDate = "${$filter('date')(dateFrom, 'yyyy-MM-dd')}" and endDate = "${$filter('date')(dateTo, 'yyyy-MM-dd')}"`);
         $http.get(`http://query.yahooapis.com/v1/public/yql?q=${query}&format=json&diagnostics=true&env=http://datatables.org/alltables.env`)
-          .then(response => {
-            if (response.data && response.data.query && response.data.query.results && response.data.query.results.quote) {
-              const stockData = selectedStocks.map(stock => {
-                return {
-                  symbol: stock.symbol,
-                  values: response.data.query.results.quote
-                    .filter(quote => quote.Symbol === stock.symbol)
-                    .map(quote => {
-                      return {
-                        date: new Date(quote.Date),
-                        open: Number(quote.Open),
-                        close: Number(quote.Close),
-                        high: Number(quote.High),
-                        low: Number(quote.Low),
-                        volume: Number(quote.Volume)
-                      };
-                  })
-                };
-              });
+            .then(response => {
+              if (response.data && response.data.query && response.data.query.results && response.data.query.results.quote) {
+                const stockData = selectedStocks.map(stock => {
+                  return {
+                    symbol: stock.symbol,
+                    values: response.data.query.results.quote
+                        .filter(quote => quote.Symbol === stock.symbol)
+                        .map(quote => {
+                          return {
+                            date: new Date(quote.Date),
+                            open: Number(quote.Open),
+                            close: Number(quote.Close),
+                            high: Number(quote.High),
+                            low: Number(quote.Low),
+                            volume: Number(quote.Volume)
+                          };
+                        })
+                  };
+                });
 
-              currentStockData = stockData;
-              request.resolve(stockData);
-            } else {
-              request.resolve([]);
-            }
-          }, () => {
-            Notification.error('Cannot load stock data');
-          });
+                currentStockData = stockData;
+                request.resolve(stockData);
+              } else {
+                request.resolve([]);
+              }
+            }, () => {
+              Notification.error('Cannot load stock data');
+            });
       } else {
         request.resolve([]);
       }
