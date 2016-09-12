@@ -11,9 +11,8 @@ export function d3Graph($window, $timeout, StockGraphService) {
       onClick: '&'
     },
     link: function (scope, ele, attrs) {
-      console.log('link');
       StockGraphService.d3().then(function (d3) {
-        console.log('render');
+        console.log(d3);
         var renderTimeout;
         var margin = parseInt(attrs.margin) || 20,
             barHeight = parseInt(attrs.barHeight) || 20,
@@ -44,9 +43,9 @@ export function d3Graph($window, $timeout, StockGraphService) {
 
           renderTimeout = $timeout(function () {
             /*
-             g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+             g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-             let parseTime = d3.timeParse("%Y-%m-%d");
+             let parseTime = d3.timeParse('%Y-%m-%d');
 
              let x = d3.scaleTime().range([0, width]),
              y = d3.scaleLinear().range([height, 0]),
@@ -60,15 +59,16 @@ export function d3Graph($window, $timeout, StockGraphService) {
              svg.append(line(data[0].data));*/
 
             // define dimensions of graph
-            let minValue = +data[0].data[0].close,
-                maxValue = +data[0].data[0].close;
-            angular.forEach(data[0].data, stockData => {
-              if (+stockData.close < minValue) {
-                minValue = +stockData.close
+            console.log(data);
+            let minValue = data[0].values[0].close,
+                maxValue = data[0].values[0].close;
+            angular.forEach(data[0].values, stockData => {
+              if (stockData.close < minValue) {
+                minValue = stockData.close
               }
 
-              if (+stockData.close > maxValue) {
-                maxValue = +stockData.close
+              if (stockData.close > maxValue) {
+                maxValue = stockData.close
               }
             });
 
@@ -76,15 +76,14 @@ export function d3Graph($window, $timeout, StockGraphService) {
                 width = ele[0].getBoundingClientRect().width - margin.left - margin.right,
                 height = ele[0].getBoundingClientRect().height - margin.top - margin.bottom;
 
-            var formatDate = d3.timeParse("%Y-%m-%d");
-            var x = d3.scaleTime().domain([data[0].data[0].date, data[0].data[data[0].data.length-1].date]).range([0, width]);
-            var y = d3.scaleLinear().domain([minValue, maxValue]).range([height, 0]);
+            let x = d3.scaleTime().domain([data[0].values[0].date, data[0].values[data[0].values.length-1].date]).range([0, width]);
+            let y = d3.scaleLinear().domain([minValue, maxValue]).range([height, 0]);
 
             // Define the axes
-            var xAxis = d3.axisBottom(x);
+            let xAxis = d3.axisBottom(x);
             var yAxis = d3.axisLeft(y);
 
-            var line = d3.line()
+            let line = d3.line()
                 .x(function(d) {
                   return x(d.date);
                 })
@@ -92,35 +91,35 @@ export function d3Graph($window, $timeout, StockGraphService) {
                   return y(d.close);
                 });
 
-            svg.append("svg:scale")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            svg.append('svg:scale')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
             // Add the X Axis
-            svg.append("g")
-                .attr("class", "axis axis-x")
-                .attr("transform", "translate(0," + height + ")")
+            svg.append('g')
+                .attr('class', 'axis axis-x')
+                .attr('transform', `translate(0,${height})`)
                 .call(xAxis);
 
             // Add the Y Axis
-            svg.append("g")
-                .attr("class", "axis axis-y")
+            svg.append('g')
+                .attr('class', 'axis axis-y')
                 .call(yAxis)
-                .append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 6)
-                .attr("dy", "0.71em")
-                .attr("fill", "#000")
-                .text("Close price $");
+                .append('text')
+                .attr('transform', 'rotate(-90)')
+                .attr('y', 6)
+                .attr('dy', '0.71em')
+                .attr('fill', '#000')
+                .text('Close price $');
 
-            svg.append("svg:path")
-                .datum(data[0].data)
-                .attr("class", "line")
-                .attr("fill", "none")
-                .attr("stroke", "#000")
-                .attr("d", line);
+            svg.append('svg:path')
+                .datum(data[0].values)
+                .attr('class', 'line')
+                .attr('fill', 'none')
+                .attr('stroke', '#000')
+                .attr('d', line);
           }, 0);
         };
       });
