@@ -4,7 +4,7 @@ import angular from 'angular';
 export function StockService($http, $q, $filter, Notification) {
   'ngInject';
 
-  let currentStockData;
+  let currentStockData = [];
 
   return {
     getStockList() {
@@ -33,10 +33,11 @@ export function StockService($http, $q, $filter, Notification) {
             if (response.data && response.data.query && response.data.query.results && response.data.query.results.quote) {
               const stockData = selectedStocks.map(stock => {
                 return {
-                  name: stock.symbol,
+                  symbol: stock.symbol,
                   values: response.data.query.results.quote.map(quote => {
                     return {
                       date: new Date(quote.Date),
+                      open: Number(quote.Open),
                       close: Number(quote.Close),
                       high: Number(quote.High),
                       low: Number(quote.Low),
@@ -46,6 +47,7 @@ export function StockService($http, $q, $filter, Notification) {
                 };
               });
 
+              currentStockData = stockData;
               request.resolve(stockData);
             } else {
               request.resolve([]);
@@ -61,7 +63,7 @@ export function StockService($http, $q, $filter, Notification) {
     },
 
     getCurrentStockFor(stockSymbol) {
-      return currentStockData.find(stock => stock.key === stockSymbol);
+      return currentStockData.find(stock => stock.symbol === stockSymbol);
     }
   };
 }

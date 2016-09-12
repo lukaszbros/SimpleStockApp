@@ -54,7 +54,7 @@ export function d3Graph($window, $timeout, StockGraphService) {
                 width = ele[0].getBoundingClientRect().width - margin.left - margin.right,
                 height = ele[0].getBoundingClientRect().height - margin.top - margin.bottom;
 
-            let x = d3.scaleTime().domain([data[0].values[0].date, data[0].values[data[0].values.length-1].date]).range([0, width]);
+            let x = d3.scaleTime().domain([data[0].values[0].date, data[0].values[data[0].values.length-1].date]).range([width, 0]);
             let y = d3.scaleLinear().domain([minValue, maxValue]).range([height, 0]);
 
             // Define the axes
