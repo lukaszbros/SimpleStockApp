@@ -34,19 +34,22 @@ export function StockService($http, $q, $filter, Notification) {
               const stockData = selectedStocks.map(stock => {
                 return {
                   symbol: stock.symbol,
-                  values: response.data.query.results.quote.map(quote => {
-                    return {
-                      date: new Date(quote.Date),
-                      open: Number(quote.Open),
-                      close: Number(quote.Close),
-                      high: Number(quote.High),
-                      low: Number(quote.Low),
-                      volume: Number(quote.Volume)
-                    };
+                  values: response.data.query.results.quote
+                    .filter(quote => quote.Symbol === stock.symbol)
+                    .map(quote => {
+                      return {
+                        date: new Date(quote.Date),
+                        open: Number(quote.Open),
+                        close: Number(quote.Close),
+                        high: Number(quote.High),
+                        low: Number(quote.Low),
+                        volume: Number(quote.Volume)
+                      };
                   })
                 };
               });
 
+              console.log(stockData);
               currentStockData = stockData;
               request.resolve(stockData);
             } else {

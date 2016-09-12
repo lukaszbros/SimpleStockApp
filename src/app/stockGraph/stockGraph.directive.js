@@ -38,24 +38,17 @@ export function d3Graph($window, $timeout, StockGraphService) {
           if (renderTimeout) clearTimeout(renderTimeout);
 
           renderTimeout = $timeout(function () {
-            let minValue = data[0].values[0].close,
-                maxValue = data[0].values[0].close;
-            angular.forEach(data[0].values, stockData => {
-              if (stockData.close < minValue) {
-                minValue = stockData.close
-              }
-
-              if (stockData.close > maxValue) {
-                maxValue = stockData.close
-              }
-            });
-
-            let margin = {top: 20, right: 20, bottom: 20, left: 20},
+            let margin = {top: 20, right: 20, bottom: 20, left: 40},
                 width = ele[0].getBoundingClientRect().width - margin.left - margin.right,
                 height = ele[0].getBoundingClientRect().height - margin.top - margin.bottom;
 
-            let x = d3.scaleTime().domain([data[0].values[0].date, data[0].values[data[0].values.length-1].date]).range([width, 0]);
-            let y = d3.scaleLinear().domain([minValue, maxValue]).range([height, 0]);
+            let minDate = d3.min(data, stock => { return d3.min(stock.values, value => { return value.date; }); });
+            let maxDate = d3.max(data, stock => { return d3.max(stock.values, value => { return value.date; }); });
+            let minValue = d3.min(data, stock => { return d3.min(stock.values, value => { return value.close; }); });
+            let maxValue = d3.max(data, stock => { return d3.max(stock.values, value => { return value.close; }); });
+            const x = d3.scaleTime().domain([minDate, maxDate]).range([width, 0]);
+            const y = d3.scaleLinear().domain([minValue, maxValue]).range([height, 0]);
+            const z = d3.scaleOrdinal(d3.schemeCategory10).domain(data.map(stock => { return stock.symbol; }));
 
             // Define the axes
             let xAxis = d3.axisBottom(x)
@@ -63,7 +56,7 @@ export function d3Graph($window, $timeout, StockGraphService) {
             let yAxis = d3.axisLeft(y)
                 .tickSize(1)
                 .ticks(6)
-                .tickFormat(d3.format(",.0f"));
+                .tickFormat(d3.format(",.2f"));
 
             let line = d3.line()
                 .x(function(d) {
@@ -74,15 +67,16 @@ export function d3Graph($window, $timeout, StockGraphService) {
                 });
 
             // Add the X Axis
-            svg.append('g')
+            const g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            g.append('g')
                 .attr('class', 'axis axis-x')
-                .attr('transform', `translate(${margin.left}, ${height + margin.top})`)
+                .attr('transform', `translate(0, ${height})`)
                 .call(xAxis);
 
             // Add the Y Axis
-            svg.append('g')
+            g.append('g')
                 .attr('class', 'axis axis-y')
-                .attr('transform', `translate(${margin.left}, ${margin.top})`)
                 .call(yAxis)
                 .append('text')
                 .attr('transform', 'rotate(-90)')
@@ -91,13 +85,16 @@ export function d3Graph($window, $timeout, StockGraphService) {
                 .attr('fill', '#000')
                 .text('Close price $');
 
-            svg.append('svg:path')
-                .attr('transform', `translate(${margin.left}, ${margin.top})`)
-                .datum(data[0].values)
+            const stock = g.selectAll(".stock")
+                .data(data)
+                .enter().append("g")
+                .attr("class", "stock");
+
+            stock.append('path')
                 .attr('class', 'line')
                 .attr('fill', 'none')
-                .attr('stroke', '#000')
-                .attr('d', line);
+                .attr("stroke", stock => { return z(stock.symbol); })
+                .attr('d', stock => { return line(stock.values); });
           }, 0);
         };
       });
