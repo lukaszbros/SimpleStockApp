@@ -59,6 +59,7 @@ export function d3Graph($window, $timeout, StockGraphService) {
                 .tickFormat(d3.format(",.2f"));
 
             let line = d3.line()
+                .curve(d3.curveCardinal.tension(0.5))
                 .x(function(d) {
                   return x(d.date);
                 })

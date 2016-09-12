@@ -49,7 +49,6 @@ export function StockService($http, $q, $filter, Notification) {
                 };
               });
 
-              console.log(stockData);
               currentStockData = stockData;
               request.resolve(stockData);
             } else {
