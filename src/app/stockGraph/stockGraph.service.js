@@ -7,7 +7,6 @@ export function StockGraphService($rootScope, $timeout, $q) {
   const d = $q.defer();
   $timeout(() => {
     $rootScope.$apply(() => {
-      console.log(d3);
       d.resolve(d3);
     });
   }, 0);
@@ -16,7 +15,7 @@ export function StockGraphService($rootScope, $timeout, $q) {
     d3() {
       return d.promise;
     },
-    
+
     stockInfoHtml(stock, color) {
       const rows =
           `<tr>

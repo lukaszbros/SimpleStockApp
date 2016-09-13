@@ -56,14 +56,14 @@ table {
 
     .tooltip {
       background-color: $mainFooter;
-
-      .legend-color-guide {
-        div {
-          height: 10px;
-          width: 10px;
-          margin-left: 10px;
-        }
-      }
     }
+  }
+}
+
+.legend-color-guide {
+  div {
+    height: 10px;
+    width: 10px;
+    margin-left: 10px;
   }
 }

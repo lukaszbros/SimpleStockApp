@@ -3,18 +3,22 @@
     <h3>Selected stock list</h3>
     <table class="table table-striped">
       <thead>
-        <tr>
-          <th>Name</th>
-          <th>Symbol</th>
-          <th>Info</th>
-          <th>Data</th>
-          <th>Remove</th>
-        </tr>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Symbol</th>
+        <th>Info</th>
+        <th>Data</th>
+        <th>Remove</th>
+      </tr>
       </thead>
       <tr ng-show="stockList.selectedStocks.length === 0">
-        <td colspan="5" class="text-center">No stocks selected</td>
+        <td colspan="6" class="text-center">No stocks selected</td>
       </tr>
       <tr ng-repeat="stock in stockList.selectedStocks">
+        <td class="legend-color-guide">
+          <div style="background-color: {{stockList.stockColor[$index]}};"></div>
+        </td>
         <td>{{stock.name}}</td>
         <td>{{stock.symbol}}</td>
         <td><a ng-click="stockList.infoStock(stock)" class="link-button"><i class="fa fa-info-circle"></i></a></td>
@@ -22,14 +26,13 @@
         <td><a ng-click="stockList.removeStock(stock)" class="link-button"><i class="fa fa-close"></i></a></td>
       </tr>
       <tfoot>
-        <tr>
-          <td colspan="5">&nbsp;</td>
-        </tr>
+      <tr>
+        <td colspan="6">&nbsp;</td>
+      </tr>
       </tfoot>
     </table>
   </div>
-</div>
-<div class="row">
+
   <div class="col-sm-12">
     <stock-details stock="stockList.infoSelectedStock"></stock-details>
     <stock-data stock="stockList.dataSelectedStock"></stock-data>
