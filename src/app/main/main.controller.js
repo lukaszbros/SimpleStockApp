@@ -7,7 +7,7 @@ export class MainController {
     this.Notification = Notification;
     this.selectedStocks = [];
     this.dateFrom = new Date();
-    this.dateFrom.setMonth(this.dateFrom.getMonth() - 1);
+    this.dateFrom.setMonth(this.dateFrom.getMonth() - 6);
     this.dateTo = new Date();
   }
 

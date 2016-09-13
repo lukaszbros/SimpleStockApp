@@ -132,7 +132,7 @@ export function d3Graph($window, $timeout, StockGraphService) {
                 })
                 .enter()
                 .append('circle')
-                .attr('r', 5)
+                .attr('r', 4)
                 .attr('cx', value => {
                   return x(value.date);
                 })
@@ -142,10 +142,10 @@ export function d3Graph($window, $timeout, StockGraphService) {
                 .attr('fill', stock => {
                   return z(stock.symbol);
                 })
-                .style('opacity', 0.5)
+                .style('opacity', 0)
                 .on('mouseover', value => {
                   d3.select(d3.event.target)
-                      .style('opacity', 1);
+                      .style('opacity', 0.5);
                   tooltip.transition()
                       .duration(200)
                       .style('opacity', 0.9);
@@ -155,7 +155,7 @@ export function d3Graph($window, $timeout, StockGraphService) {
                 })
                 .on('mouseout', () => {
                   d3.select(d3.event.target)
-                      .style('opacity', 0.5);
+                      .style('opacity', 0);
                   tooltip.transition()
                       .duration(500)
                       .style('opacity', 0);
