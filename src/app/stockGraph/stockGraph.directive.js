@@ -8,8 +8,8 @@ export function d3Graph($window, $timeout, StockGraphService) {
     restrict: 'A',
     scope: {
       data: '=',
-      label: '@',
-      onClick: '&'
+      dateFrom: '=',
+      dateTo: '='
     },
     link: (scope, ele) => {
       StockGraphService.d3().then(d3 => {
@@ -45,7 +45,7 @@ export function d3Graph($window, $timeout, StockGraphService) {
           }
 
           renderTimeout = $timeout(() => {
-            const timeFormat = d3.timeFormat('%m-%d');
+            const timeFormat = d3.timeFormat('%b %d');
             const margin = {top: 20, right: 20, bottom: 20, left: 40};
             const width = ele[0].getBoundingClientRect().width - margin.left - margin.right;
             const height = ele[0].getBoundingClientRect().height - margin.top - margin.bottom;
@@ -69,7 +69,7 @@ export function d3Graph($window, $timeout, StockGraphService) {
                 return value.close;
               });
             });
-            const x = d3.scaleTime().domain([minDate, maxDate]).range([width, 0]);
+            const x = d3.scaleTime().domain([minDate, maxDate]).range([0, width]);
             const y = d3.scaleLinear().domain([minValue, maxValue]).range([height, 0]);
             const z = d3.scaleOrdinal(d3.schemeCategory10).domain(data.map(stock => {
               return stock.symbol;
@@ -116,7 +116,7 @@ export function d3Graph($window, $timeout, StockGraphService) {
                 .enter().append('g')
                 .attr('class', 'stock');
 
-            stock.append('path')
+            const path = stock.append('path')
                 .attr('class', 'line')
                 .attr('fill', 'none')
                 .attr('stroke', stock => {
@@ -125,6 +125,16 @@ export function d3Graph($window, $timeout, StockGraphService) {
                 .attr('d', stock => {
                   return line(stock.values);
                 });
+
+            stock.append("g")
+                .attr("class", "brush")
+                .call(d3.brushX().on("end", () => {
+                  if (angular.isArray(d3.event.selection) && d3.event.selection.length === 2 && d3.event.selection[0] && d3.event.selection[1]) {
+                    scope.dateFrom = x.invert(d3.event.selection[0]);
+                    scope.dateTo = x.invert(d3.event.selection[1]);
+                    scope.$apply();
+                  }
+                }));
 
             stock.selectAll('circle')
                 .data(stock => {
