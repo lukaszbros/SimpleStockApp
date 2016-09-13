@@ -53,5 +53,17 @@ table {
       height: 100%;
       width: 100%;
     }
+
+    .tooltip {
+      background-color: $mainFooter;
+
+      .legend-color-guide {
+        div {
+          height: 10px;
+          width: 10px;
+          margin-left: 10px;
+        }
+      }
+    }
   }
 }

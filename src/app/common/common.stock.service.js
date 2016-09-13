@@ -38,6 +38,7 @@ export function StockService($http, $q, $filter, Notification) {
                         .filter(quote => quote.Symbol === stock.symbol)
                         .map(quote => {
                           return {
+                            symbol: quote.Symbol,
                             date: new Date(quote.Date),
                             open: Number(quote.Open),
                             close: Number(quote.Close),

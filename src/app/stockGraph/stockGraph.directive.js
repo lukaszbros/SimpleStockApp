@@ -16,6 +16,9 @@ export function d3Graph($window, $timeout, StockGraphService) {
         let renderTimeout;
         const svg = d3.select(ele[0])
             .append('svg');
+        const tooltip = d3.select(ele[0])
+            .append('div')
+            .attr('class', 'tooltip');
 
         $window.onresize = function () {
           scope.$apply();
@@ -42,6 +45,7 @@ export function d3Graph($window, $timeout, StockGraphService) {
           }
 
           renderTimeout = $timeout(() => {
+            const timeFormat = d3.timeFormat('%m-%d');
             const margin = {top: 20, right: 20, bottom: 20, left: 40};
             const width = ele[0].getBoundingClientRect().width - margin.left - margin.right;
             const height = ele[0].getBoundingClientRect().height - margin.top - margin.bottom;
@@ -73,7 +77,7 @@ export function d3Graph($window, $timeout, StockGraphService) {
 
             // Define the axes
             const xAxis = d3.axisBottom(x)
-                .tickFormat(d3.timeFormat('%m-%d'));
+                .tickFormat(timeFormat);
             const yAxis = d3.axisLeft(y)
                 .tickSize(1)
                 .ticks(6)
@@ -120,6 +124,44 @@ export function d3Graph($window, $timeout, StockGraphService) {
                 })
                 .attr('d', stock => {
                   return line(stock.values);
+                });
+
+            stock.selectAll('circle')
+                .data(stock => {
+                  return stock.values;
+                })
+                .enter()
+                .append('circle')
+                .attr('r', 5)
+                .attr('cx', value => {
+                  return x(value.date);
+                })
+                .attr('cy', value => {
+                  return y(value.close);
+                })
+                .attr('fill', stock => {
+                  return z(stock.symbol);
+                })
+                .style('opacity', 0.5)
+                .on('mouseover', value => {
+                  d3.select(d3.event.target)
+                      .style('opacity', 1);
+                  tooltip.transition()
+                      .duration(200)
+                      .style('opacity', 0.9);
+                  tooltip.html(StockGraphService.stockInfoHtml(value, z(value.symbol)))
+                      .style('left', `${x(value.date)}px`)
+                      .style('top', `${y(value.close) - 60}px`);
+                })
+                .on('mouseout', () => {
+                  d3.select(d3.event.target)
+                      .style('opacity', 0.5);
+                  tooltip.transition()
+                      .duration(500)
+                      .style('opacity', 0);
+                  tooltip.html('')
+                      .style('left', '0px')
+                      .style('top', '0px');
                 });
           }, 0);
         };
