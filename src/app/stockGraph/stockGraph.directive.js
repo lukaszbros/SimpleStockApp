@@ -116,7 +116,7 @@ export function d3Graph($window, $timeout, StockGraphService) {
                 .enter().append('g')
                 .attr('class', 'stock');
 
-            const path = stock.append('path')
+            stock.append('path')
                 .attr('class', 'line')
                 .attr('fill', 'none')
                 .attr('stroke', stock => {

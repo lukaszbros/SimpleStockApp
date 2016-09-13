@@ -1,7 +1,6 @@
 <div class="row stock-graph" ng-show="stockGraph.stockData.length > 0">
   <div class="col-sm-12">
     <h3>Stock graph</h3>
-    {{stockGraph.dateFrom}}
     <div class="graph-container" d3-graph data="stockGraph.stockData" date-from="stockGraph.dateFrom" date-to="stockGraph.dateTo"></div>
   </div>
 </div>
